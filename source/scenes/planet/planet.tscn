@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bgs233bb6owim"]
+
+[ext_resource type="Script" uid="uid://cg2v8sgf3nv3b" path="res://scenes/planet/planet.gd" id="1_invnv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p4lu5"]
+radius = 34.132095
+
+[node name="Planet" type="RigidBody2D" unique_id=821392431]
+mass = 20000.0
+gravity_scale = 0.0
+script = ExtResource("1_invnv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335825904]
+shape = SubResource("CircleShape2D_p4lu5")

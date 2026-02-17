@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cqkot4x8tpcrc"]
+
+[ext_resource type="Script" uid="uid://d1iy5i7nb6j1s" path="res://scenes/player/player.gd" id="1_75vfm"]
+[ext_resource type="Script" uid="uid://7ken0kbqe2by" path="res://scripts/StateMachine/StateMachine.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://3bd3gjmhwvw7" path="res://scenes/player/states/idle.gd" id="2_gmlin"]
+[ext_resource type="Script" uid="uid://bhj6lxidodflb" path="res://scenes/player/states/run.gd" id="3_gmlin"]
+[ext_resource type="Script" uid="uid://bf6qctmglxlrk" path="res://scenes/player/states/jump.gd" id="4_lvxji"]
+[ext_resource type="Script" uid="uid://bbdkki4ffki10" path="res://scenes/player/states/wall.gd" id="5_p47bc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x7p2l"]
+size = Vector2(16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_75vfm"]
+
+[node name="Player" type="RigidBody2D" unique_id=2104105764]
+gravity_scale = 0.0
+script = ExtResource("1_75vfm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=17378517]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_x7p2l")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=593727356]
+offset_left = -8.0
+offset_top = -32.0
+offset_right = 8.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1007071693]
+sprite_frames = SubResource("SpriteFrames_75vfm")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1205266124]
+script = ExtResource("1_dovo2")
+metadata/_custom_type_script = "uid://7ken0kbqe2by"
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=328179703]
+script = ExtResource("2_gmlin")
+
+[node name="Run" type="Node" parent="StateMachine" unique_id=937438904]
+script = ExtResource("3_gmlin")
+
+[node name="Jump" type="Node" parent="StateMachine" unique_id=730802780]
+script = ExtResource("4_lvxji")
+
+[node name="Wall" type="Node" parent="StateMachine" unique_id=1513724667]
+script = ExtResource("5_p47bc")

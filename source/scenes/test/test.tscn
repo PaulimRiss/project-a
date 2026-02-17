@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cbre6syrjjsoy"]
+
+[ext_resource type="PackedScene" uid="uid://ceq8oy1skpqfv" path="res://scenes/spaceship/spaceship.tscn" id="1_m7npr"]
+[ext_resource type="Script" uid="uid://da1ya1bc8v41l" path="res://scenes/test/test.gd" id="1_st4qh"]
+[ext_resource type="PackedScene" uid="uid://bgs233bb6owim" path="res://scenes/planet/planet.tscn" id="2_da6vm"]
+
+[node name="Test" type="Node2D" unique_id=297585841 node_paths=PackedStringArray("interactive_bodies")]
+script = ExtResource("1_st4qh")
+interactive_bodies = [NodePath("Planet"), NodePath("Planet2")]
+
+[node name="Spaceship" parent="." unique_id=1640795556 instance=ExtResource("1_m7npr")]
+position = Vector2(192, 106)
+
+[node name="Planet" parent="." unique_id=821392431 instance=ExtResource("2_da6vm")]
+position = Vector2(307, 84)
+
+[node name="Planet2" parent="." unique_id=1496812348 instance=ExtResource("2_da6vm")]
+position = Vector2(96, 141)

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://ceq8oy1skpqfv"]
+
+[ext_resource type="Script" uid="uid://dn83sp8l2ylg5" path="res://scenes/spaceship/spaceship.gd" id="1_4vs15"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tgn4n"]
+size = Vector2(10, 22)
+
+[node name="Spaceship" type="RigidBody2D" unique_id=1640795556]
+gravity_scale = 0.0
+script = ExtResource("1_4vs15")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1684552117]
+shape = SubResource("RectangleShape2D_tgn4n")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1528414633]
+offset_left = -5.0
+offset_top = -11.0
+offset_right = 5.0
+offset_bottom = 11.0
+color = Color(0.3019608, 0.56078434, 1, 1)
