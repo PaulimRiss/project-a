@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://cnji5u3tewfna"]
+
+[ext_resource type="Script" uid="uid://jhq6bkjuckdh" path="res://scenes/stamp_book/stamp_book.gd" id="1_cg2hd"]
+[ext_resource type="Texture2D" uid="uid://djpbhthc1br73" path="res://assets/passport.png" id="1_hy62g"]
+[ext_resource type="Texture2D" uid="uid://cebdccwldkaww" path="res://assets/stamper.png" id="2_cg2hd"]
+[ext_resource type="Texture2D" uid="uid://cuv6skbs5deit" path="res://assets/emblem_temp.png" id="4_2qif1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sylvs"]
+size = Vector2(70, 52)
+
+[node name="StampBook" type="Control" unique_id=395829295 node_paths=PackedStringArray("stamper", "stamp_sprite")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_cg2hd")
+stamper = NodePath("Stamper")
+stamp_sprite = NodePath("Stamps/StampSprite")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1477765343]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_hy62g")
+
+[node name="StampArea" type="Area2D" parent="." unique_id=1281074133]
+position = Vector2(200, 159)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StampArea" unique_id=724714099]
+shape = SubResource("RectangleShape2D_sylvs")
+
+[node name="Stamps" type="Node2D" parent="." unique_id=860780765]
+
+[node name="StampSprite" type="Sprite2D" parent="Stamps" unique_id=902625132]
+visible = false
+position = Vector2(171, 139)
+texture = ExtResource("4_2qif1")
+
+[node name="Stamper" type="Sprite2D" parent="." unique_id=141403331]
+visible = false
+position = Vector2(0, -7)
+texture = ExtResource("2_cg2hd")
+offset = Vector2(0, 7)
+
+[connection signal="input_event" from="StampArea" to="." method="_on_stamp_area_input_event"]

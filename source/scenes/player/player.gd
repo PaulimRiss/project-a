@@ -2,13 +2,13 @@ class_name Player
 extends RigidBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var camera_2d: Camera2D = $Camera2D
 
 @export var current_planet: Planet
 
 const MAX_SPEED: float = 150
-const JUMP_FORCE: float = 600
+const JUMP_FORCE: float = 300
 const ACCELERATION: float = 800
-const GRAVITY_ACCELERATION: float = 980
 const COYOTE_TIME: float = 0.1
 
 var can_jump: bool = true
@@ -40,33 +40,38 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	
 	if Input.is_action_just_pressed("up") and can_jump:
 		var jump_impulse = current_normal * JUMP_FORCE
-		apply_central_impulse(jump_impulse)
+		state.apply_central_impulse(jump_impulse)
 		can_jump = false
 		coyote_timer = 0
 	
-	var g_force: Vector2 = GRAVITY_ACCELERATION * -current_normal
-	apply_central_force(g_force)
+	var g_force: Vector2 = current_planet.custom_player_gravity * -current_normal
+	state.apply_central_force(g_force)
 	
 	movement(state)
 
 func rotate_to_normal() -> void:
 	rotation = Vector2.UP.angle_to(current_normal)
 
-func movement(_state: PhysicsDirectBodyState2D) -> void:
+func movement(state: PhysicsDirectBodyState2D) -> void:
 	var direction: float = Input.get_axis("left", "right")
-	
-	var tangent: Vector2 = Vector2.RIGHT.rotated(rotation)
-	
-	var tangential_speed: float = linear_velocity.dot(tangent)
-	
-	var g_force: Vector2 = GRAVITY_ACCELERATION * -current_normal
-	apply_central_force(g_force)
-	
+
+	var t: Transform2D = state.transform
+
+	var local_vel: Vector2 = t.basis_xform_inv(state.linear_velocity)
+
 	if direction != 0:
 		last_direction = direction
+		var tangent: Vector2 = t.x
+		var tangential_speed: float = state.linear_velocity.dot(tangent)
+
 		if abs(tangential_speed) < MAX_SPEED or sign(tangential_speed) != sign(direction):
-			apply_central_force(tangent * direction * ACCELERATION)
+			state.apply_central_force(tangent * direction * ACCELERATION)
 	else:
-		if abs(tangential_speed) > 0:
+		if abs(local_vel.x) < 15.:
+			local_vel.x = 0.
+			state.linear_velocity = t.basis_xform(local_vel)
+		elif abs(local_vel.x) > 0:
+			var tangent: Vector2 = t.x
+			var tangential_speed: float = state.linear_velocity.dot(tangent)
 			var decel_dir = - sign(tangential_speed)
-			apply_central_force(tangent * decel_dir * ACCELERATION)
+			state.apply_central_force(tangent * decel_dir * ACCELERATION)

@@ -4,17 +4,13 @@
 [ext_resource type="Script" uid="uid://cg2v8sgf3nv3b" path="res://scenes/planet/planet.gd" id="2_6i33l"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6i33l"]
-friction = 0.0
+friction = 0.05
 rough = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p4lu5"]
 radius = 200.0
 
 [node name="Platformtest" type="Node2D" unique_id=1900235576]
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=31473282]
-position = Vector2(219, 319)
-zoom = Vector2(0.45, 0.45)
 
 [node name="Player" parent="." unique_id=293564120 node_paths=PackedStringArray("current_planet") instance=ExtResource("1_p47yq")]
 position = Vector2(192, 109)
@@ -23,10 +19,15 @@ contact_monitor = true
 max_contacts_reported = 10
 current_planet = NodePath("../Planet")
 
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=31473282]
+ignore_rotation = false
+
 [node name="Planet" type="RigidBody2D" parent="." unique_id=821392431]
 position = Vector2(193, 325)
 mass = 20000.0
 gravity_scale = 0.0
+lock_rotation = true
+freeze = true
 script = ExtResource("2_6i33l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Planet" unique_id=335825904]

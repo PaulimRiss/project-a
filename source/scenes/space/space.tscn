@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://bbxip667jmkj7"]
+
+[ext_resource type="PackedScene" uid="uid://ceq8oy1skpqfv" path="res://scenes/spaceship/spaceship.tscn" id="1_2482y"]
+[ext_resource type="Script" uid="uid://d3daqjfcq6i5p" path="res://scenes/space/space.gd" id="1_ugvpa"]
+[ext_resource type="Texture2D" uid="uid://42mdsvsbn4pb" path="res://assets/distant_stars.png" id="3_x217o"]
+[ext_resource type="Texture2D" uid="uid://c5bgg05wnxlbl" path="res://assets/close_stars.png" id="4_0a2q3"]
+[ext_resource type="Texture2D" uid="uid://dliaof758q4uj" path="res://assets/medium_stars.png" id="4_718x5"]
+[ext_resource type="Texture2D" uid="uid://byss7gp40133q" path="res://assets/dirt.png" id="5_n6hgd"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_a6fvg"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2482y"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ugvpa"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_x217o"]
+normal = Vector2(-1, 0)
+
+[node name="Space" type="Node2D" unique_id=1661281997]
+script = ExtResource("1_ugvpa")
+
+[node name="SpaceBoundaries" type="StaticBody2D" parent="." unique_id=793882296]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Bottom" type="CollisionShape2D" parent="SpaceBoundaries" unique_id=1189097126]
+position = Vector2(0, 3000)
+shape = SubResource("WorldBoundaryShape2D_a6fvg")
+
+[node name="Upper" type="CollisionShape2D" parent="SpaceBoundaries" unique_id=1215621947]
+position = Vector2(2, -3000)
+shape = SubResource("WorldBoundaryShape2D_2482y")
+
+[node name="Left" type="CollisionShape2D" parent="SpaceBoundaries" unique_id=1256220880]
+position = Vector2(-3000, 0)
+shape = SubResource("WorldBoundaryShape2D_ugvpa")
+
+[node name="Right" type="CollisionShape2D" parent="SpaceBoundaries" unique_id=1644626116]
+position = Vector2(3000, 0)
+shape = SubResource("WorldBoundaryShape2D_x217o")
+
+[node name="DistantStars" type="Parallax2D" parent="." unique_id=11812956]
+scroll_scale = Vector2(0.01, 0.01)
+repeat_size = Vector2(512, 512)
+repeat_times = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="DistantStars" unique_id=1133858811]
+texture = ExtResource("3_x217o")
+
+[node name="MediumStars" type="Parallax2D" parent="." unique_id=1293473897]
+scroll_scale = Vector2(0.03, 0.03)
+repeat_size = Vector2(512, 512)
+repeat_times = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="MediumStars" unique_id=996890482]
+texture = ExtResource("4_718x5")
+
+[node name="CloseStars" type="Parallax2D" parent="." unique_id=803123879]
+scroll_scale = Vector2(0.08, 0.08)
+repeat_size = Vector2(512, 512)
+repeat_times = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="CloseStars" unique_id=1587644277]
+texture = ExtResource("4_0a2q3")
+
+[node name="Dirt" type="Parallax2D" parent="." unique_id=459483863]
+scroll_scale = Vector2(0.8, 0.8)
+repeat_size = Vector2(512, 512)
+repeat_times = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="Dirt" unique_id=488207948]
+texture = ExtResource("5_n6hgd")
+
+[node name="Spaceship" parent="." unique_id=1640795556 instance=ExtResource("1_2482y")]
+
+[node name="Camera2D" type="Camera2D" parent="Spaceship" unique_id=1730204488]
+zoom = Vector2(3, 3)
+position_smoothing_speed = 2.0
