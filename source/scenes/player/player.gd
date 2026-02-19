@@ -2,7 +2,6 @@ class_name Player
 extends RigidBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var camera_2d: Camera2D = $Camera2D
 
 @export var current_planet: Planet
 
@@ -16,20 +15,18 @@ var coyote_timer: float = 0.0
 
 var current_normal: Vector2 = Vector2.UP
 var last_direction: float = 0
+var on_ground: bool = false
 
+var local_vel: Vector2
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	angular_velocity = 0
 	current_normal = - global_position.direction_to(current_planet.global_position)
 	rotate_to_normal()
 	
-	var on_ground = false
-	for i in range(state.get_contact_count()):
-		var collider = state.get_contact_collider_object(i)
-		if collider == current_planet:
-			on_ground = true
-			break
-	
+	on_ground = $GroundDetection.is_colliding()
+
+	$DebugLabel.text = str(on_ground)
 	if on_ground:
 		coyote_timer = COYOTE_TIME
 		can_jump = true
@@ -54,10 +51,11 @@ func rotate_to_normal() -> void:
 
 func movement(state: PhysicsDirectBodyState2D) -> void:
 	var direction: float = Input.get_axis("left", "right")
+	animated_sprite.scale.x = direction if direction != 0 else animated_sprite.scale.x
 
 	var t: Transform2D = state.transform
 
-	var local_vel: Vector2 = t.basis_xform_inv(state.linear_velocity)
+	local_vel = t.basis_xform_inv(state.linear_velocity)
 
 	if direction != 0:
 		last_direction = direction

@@ -3,7 +3,22 @@
 [ext_resource type="Script" uid="uid://cg2v8sgf3nv3b" path="res://scenes/planet/planet.gd" id="1_invnv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p4lu5"]
-radius = 34.132095
+radius = 200.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_invnv"]
+radius = 200.0
+height = 400.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_invnv"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q7o7h"]
+noise = SubResource("FastNoiseLite_invnv")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_invnv"]
+radius = 377.0013
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_invnv"]
+size = Vector2(64, 87)
 
 [node name="Planet" type="RigidBody2D" unique_id=821392431]
 mass = 20000.0
@@ -14,3 +29,24 @@ script = ExtResource("1_invnv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335825904]
 shape = SubResource("CircleShape2D_p4lu5")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=641395053]
+modulate = Color(0.25391772, 0.11614404, 0.1035193, 1)
+mesh = SubResource("SphereMesh_invnv")
+texture = SubResource("NoiseTexture2D_q7o7h")
+
+[node name="Atmosphere" type="Area2D" parent="." unique_id=382917749]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Atmosphere" unique_id=1048636470]
+shape = SubResource("CircleShape2D_invnv")
+
+[node name="LandSite" type="Area2D" parent="." unique_id=1013908862]
+position = Vector2(0, -210)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandSite" unique_id=984775108]
+position = Vector2(0, -24.5)
+shape = SubResource("RectangleShape2D_invnv")
+
+[connection signal="body_entered" from="Atmosphere" to="." method="_on_atmosphere_body_entered"]
+[connection signal="body_exited" from="Atmosphere" to="." method="_on_atmosphere_body_exited"]
+[connection signal="body_entered" from="LandSite" to="." method="_on_land_site_body_entered"]

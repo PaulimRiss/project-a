@@ -21,9 +21,10 @@ current_planet = NodePath("../Planet")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=31473282]
 ignore_rotation = false
+zoom = Vector2(3, 3)
 
 [node name="Planet" type="RigidBody2D" parent="." unique_id=821392431]
-position = Vector2(193, 325)
+position = Vector2(206, 394)
 mass = 20000.0
 gravity_scale = 0.0
 lock_rotation = true

@@ -2,10 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://ceq8oy1skpqfv" path="res://scenes/spaceship/spaceship.tscn" id="1_2482y"]
 [ext_resource type="Script" uid="uid://d3daqjfcq6i5p" path="res://scenes/space/space.gd" id="1_ugvpa"]
+[ext_resource type="Texture2D" uid="uid://d1ay18234pvw0" path="res://assets/medium_stars_sheet.png" id="3_n6hgd"]
 [ext_resource type="Texture2D" uid="uid://42mdsvsbn4pb" path="res://assets/distant_stars.png" id="3_x217o"]
-[ext_resource type="Texture2D" uid="uid://c5bgg05wnxlbl" path="res://assets/close_stars.png" id="4_0a2q3"]
-[ext_resource type="Texture2D" uid="uid://dliaof758q4uj" path="res://assets/medium_stars.png" id="4_718x5"]
-[ext_resource type="Texture2D" uid="uid://byss7gp40133q" path="res://assets/dirt.png" id="5_n6hgd"]
+[ext_resource type="Texture2D" uid="uid://c1j27np4uubio" path="res://assets/close_stars_sheet.png" id="4_wfdyj"]
+[ext_resource type="PackedScene" uid="uid://bgs233bb6owim" path="res://scenes/planet/planet.tscn" id="5_n6hgd"]
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_5v2dy"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_pcxls"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_pcxls"]
+[ext_resource type="PackedScene" uid="uid://cqkot4x8tpcrc" path="res://scenes/player/player.tscn" id="7_wfdyj"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_a6fvg"]
 
@@ -18,8 +22,87 @@ normal = Vector2(1, 0)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_x217o"]
 normal = Vector2(-1, 0)
 
-[node name="Space" type="Node2D" unique_id=1661281997]
+[sub_resource type="AtlasTexture" id="AtlasTexture_npeeh"]
+atlas = ExtResource("3_n6hgd")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5v2dy"]
+atlas = ExtResource("3_n6hgd")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcxls"]
+atlas = ExtResource("3_n6hgd")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vho6q"]
+atlas = ExtResource("3_n6hgd")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0drc4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npeeh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5v2dy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcxls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vho6q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm3ba"]
+atlas = ExtResource("4_wfdyj")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pp5mj"]
+atlas = ExtResource("4_wfdyj")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hbnr3"]
+atlas = ExtResource("4_wfdyj")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w1rd"]
+atlas = ExtResource("4_wfdyj")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xn06p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm3ba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pp5mj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbnr3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5w1rd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_vho6q"]
+script = ExtResource("7_pcxls")
+
+[node name="Space" type="Node2D" unique_id=1661281997 node_paths=PackedStringArray("interactive_bodies", "player", "spaceship", "phantom_camera")]
 script = ExtResource("1_ugvpa")
+interactive_bodies = [NodePath("Planets/Planet")]
+player = NodePath("Player")
+spaceship = NodePath("Spaceship")
+phantom_camera = NodePath("PhantomCamera2D")
 
 [node name="SpaceBoundaries" type="StaticBody2D" parent="." unique_id=793882296]
 collision_layer = 0
@@ -41,40 +124,85 @@ shape = SubResource("WorldBoundaryShape2D_ugvpa")
 position = Vector2(3000, 0)
 shape = SubResource("WorldBoundaryShape2D_x217o")
 
-[node name="DistantStars" type="Parallax2D" parent="." unique_id=11812956]
+[node name="ParallaxLayers" type="Node2D" parent="." unique_id=1085798615]
+
+[node name="DistantStars" type="Parallax2D" parent="ParallaxLayers" unique_id=11812956]
 scroll_scale = Vector2(0.01, 0.01)
 repeat_size = Vector2(512, 512)
 repeat_times = 16
 
-[node name="Sprite2D" type="Sprite2D" parent="DistantStars" unique_id=1133858811]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayers/DistantStars" unique_id=1133858811]
 texture = ExtResource("3_x217o")
 
-[node name="MediumStars" type="Parallax2D" parent="." unique_id=1293473897]
+[node name="MediumStars" type="Parallax2D" parent="ParallaxLayers" unique_id=1293473897]
 scroll_scale = Vector2(0.03, 0.03)
 repeat_size = Vector2(512, 512)
 repeat_times = 16
 
-[node name="Sprite2D" type="Sprite2D" parent="MediumStars" unique_id=996890482]
-texture = ExtResource("4_718x5")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ParallaxLayers/MediumStars" unique_id=1512466967]
+sprite_frames = SubResource("SpriteFrames_0drc4")
+autoplay = "default"
+speed_scale = 0.75
 
-[node name="CloseStars" type="Parallax2D" parent="." unique_id=803123879]
+[node name="CloseStars" type="Parallax2D" parent="ParallaxLayers" unique_id=803123879]
 scroll_scale = Vector2(0.08, 0.08)
 repeat_size = Vector2(512, 512)
 repeat_times = 16
 
-[node name="Sprite2D" type="Sprite2D" parent="CloseStars" unique_id=1587644277]
-texture = ExtResource("4_0a2q3")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ParallaxLayers/CloseStars" unique_id=1143698833]
+sprite_frames = SubResource("SpriteFrames_xn06p")
+autoplay = "default"
+speed_scale = 0.75
 
-[node name="Dirt" type="Parallax2D" parent="." unique_id=459483863]
+[node name="Dirt" type="Parallax2D" parent="ParallaxLayers" unique_id=459483863]
 scroll_scale = Vector2(0.8, 0.8)
 repeat_size = Vector2(512, 512)
 repeat_times = 16
 
-[node name="Sprite2D" type="Sprite2D" parent="Dirt" unique_id=488207948]
-texture = ExtResource("5_n6hgd")
+[node name="CPUParticles2D" type="CPUParticles2D" parent="ParallaxLayers/Dirt" unique_id=940507953]
+amount = 32
+lifetime = 90.0
+preprocess = 90.0
+explosiveness = 0.2
+lifetime_randomness = 0.63
+emission_shape = 3
+emission_rect_extents = Vector2(512, 512)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 3.0
+scale_amount_max = 2.0
+color = Color(0.84422106, 0.40556374, 0.27944836, 0.56078434)
+
+[node name="Planets" type="Node2D" parent="." unique_id=304005931]
+
+[node name="Planet" parent="Planets" unique_id=821392431 node_paths=PackedStringArray("space") instance=ExtResource("5_n6hgd")]
+position = Vector2(1051, 0)
+mass = 500000.0
+space = NodePath("../..")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1945328914]
+physics_interpolation_mode = 1
+top_level = true
+ignore_rotation = false
+zoom = Vector2(3, 3)
+process_callback = 0
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=2084432703]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("6_pcxls")
 
 [node name="Spaceship" parent="." unique_id=1640795556 instance=ExtResource("1_2482y")]
 
-[node name="Camera2D" type="Camera2D" parent="Spaceship" unique_id=1730204488]
+[node name="Player" parent="." unique_id=2104105764 node_paths=PackedStringArray("current_planet") instance=ExtResource("7_wfdyj")]
+visible = false
+position = Vector2(331, -184)
+current_planet = NodePath("../Planets/Planet")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." unique_id=261652361 node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("6_5v2dy")
+follow_mode = 1
+follow_target = NodePath("../Spaceship")
 zoom = Vector2(3, 3)
-position_smoothing_speed = 2.0
+tween_resource = SubResource("Resource_vho6q")

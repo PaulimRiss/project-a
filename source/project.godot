@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 MouseHandler="*uid://dl5okc36t0mao"
+PhantomCameraManager="*uid://duq6jhf6unyis"
 
 [display]
 
@@ -28,6 +29,10 @@ window/size/window_width_override=1350
 window/size/window_height_override=675
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -61,17 +66,18 @@ left_click={
 ]
 }
 
+[phantom_camera]
+
+tips/show_jitter_tips=false
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=3
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-textures/default_filters/use_nearest_mipmap_filter=true
-textures/decals/filter=4
-textures/light_projectors/filter=4
 environment/defaults/default_clear_color=Color(0.006929077, 0.018336201, 0.09793753, 1)
